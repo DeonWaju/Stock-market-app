@@ -1,6 +1,5 @@
 package com.example.stockmarketapp.presentation.companylist
 
-import android.widget.Space
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,7 +34,6 @@ fun CompanyItem(
             fontSize = 16.sp,
             fontWeight = FontWeight.SemiBold
         )
-
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = companyListing.exchange,
