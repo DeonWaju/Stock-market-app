@@ -1,6 +1,6 @@
 package com.example.stockmarketapp.data.repo
 
-import com.example.stockmarketapp.data.csv.CSVParser
+import com.example.stockmarketapp.data.csv.ICSVParser
 import com.example.stockmarketapp.data.local.dto.StockDatabase
 import com.example.stockmarketapp.data.mapper.toCompanyListing
 import com.example.stockmarketapp.data.mapper.toCompanyListingEntity
@@ -14,11 +14,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
-class StockRepositoryImpl(
+class StockRepositoryImpl @Inject constructor(
     private val api: StockApi,
     private val db: StockDatabase,
-    private val companyListingParser: CSVParser<CompanyListing>
+    private val companyListingParser: ICSVParser<CompanyListing>
 ): IStockRepository {
     private val dao = db.dao
     override suspend fun getCompanyListings(

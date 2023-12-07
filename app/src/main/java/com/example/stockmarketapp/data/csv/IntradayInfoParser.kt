@@ -8,7 +8,7 @@
 //import java.io.InputStreamReader
 //import javax.inject.Inject
 //
-//class IntradayInfoParser @Inject constructor(): CSVParser<IntradayInfo> {
+//class IntradayInfoParser @Inject constructor(): ICSVParser<IntradayInfo> {
 //
 //    override suspend fun parse(stream: InputStream): List<IntradayInfo> {
 //        val csvReader = CSVReader(InputStreamReader(stream))
