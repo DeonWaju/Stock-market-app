@@ -9,6 +9,7 @@ import com.example.stockmarketapp.data.remote.dto.StockApi
 import com.example.stockmarketapp.data.repo.StockRepositoryImpl
 import com.example.stockmarketapp.domain.model.CompanyListing
 import com.example.stockmarketapp.domain.repository.IStockRepository
+import com.example.stockmarketapp.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +29,7 @@ object AppModule {
     @Singleton
     fun provideStockApi(): StockApi {
         return Retrofit.Builder()
+            .baseUrl(BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .client(
                 OkHttpClient.Builder()

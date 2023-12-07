@@ -23,7 +23,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 @Destination(start = true)
 fun CompanyListingScreen(
-    navigator: DestinationsNavigator,
     viewModel: CompanyListingsViewModel = hiltViewModel()
 ) {
     val swipeRefreshState = rememberSwipeRefreshState(
@@ -43,7 +42,7 @@ fun CompanyListingScreen(
             },
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxSize(),
+                .fillMaxWidth(),
             placeholder = {
                 Text(
                     text = "Search..."
