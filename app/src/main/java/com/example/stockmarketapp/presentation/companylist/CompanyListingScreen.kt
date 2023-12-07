@@ -68,6 +68,7 @@ fun CompanyListingScreen(
                             .fillMaxWidth()
                             .padding(16.dp)
                             .clickable {
+                                // TODO:
 //                                navigator.navigate(
 //                                    CompanyInfoScreenDestination(company.symbol)
 //                                )
