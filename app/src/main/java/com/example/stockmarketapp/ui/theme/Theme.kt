@@ -1,4 +1,4 @@
-package com.example.pokedex.ui.theme
+package com.example.stockmarketapp.ui.theme
 
 import android.app.Activity
 import android.os.Build
