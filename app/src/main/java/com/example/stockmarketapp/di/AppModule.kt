@@ -56,7 +56,7 @@ object AppModule {
         db: StockDatabase,
         icsvParser: ICSVParser<CompanyListing>
     ): IStockRepository = StockRepositoryImpl(api, db, icsvParser)
-
+//
     @Provides
     @Singleton
     fun provideCsvParser(): ICSVParser<CompanyListing> = CompanyListingsParser()
