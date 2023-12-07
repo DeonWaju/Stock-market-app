@@ -23,7 +23,7 @@ fun CompanyItem(
 ) {
 
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
