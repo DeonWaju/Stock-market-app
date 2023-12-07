@@ -1,5 +1,6 @@
 package com.example.stockmarketapp.data.repo
 
+import com.example.stockmarketapp.data.csv.CSVParser
 import com.example.stockmarketapp.data.local.dto.StockDatabase
 import com.example.stockmarketapp.data.mapper.toCompanyListing
 import com.example.stockmarketapp.data.remote.dto.StockApi
@@ -8,35 +9,56 @@ import com.example.stockmarketapp.domain.model.CompanyListing
 import com.example.stockmarketapp.domain.model.IntradayInfo
 import com.example.stockmarketapp.domain.repository.StockRepositoryRDS
 import com.example.stockmarketapp.util.Resource
-import com.opencsv.CSVParser
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
+import java.io.IOException
+import java.io.InputStreamReader
 
 class StockRepositoryImpl(
     private val api: StockApi,
     private val db: StockDatabase,
-//    private val companyListingParser: CSVParser<CompanyListing>
-): StockRepositoryRDS {
+    private val companyListingParser: CSVParser<CompanyListing>
+) : StockRepositoryRDS {
+    private val dao = db.dao
     override suspend fun getCompanyListings(
         fetchFromRemote: Boolean,
         query: String
     ): Flow<Resource<List<CompanyListing>>> {
         return flow {
             emit(Resource.Loading(true))
-            val localListings = db.dao.searchCompanyListing(query)
+            val localListings = dao.searchCompanyListing(query)
             emit(
                 Resource.Success(
-                    data = localListing.map { it.toCompanyListing() }
+                    data = localListings.map { it.toCompanyListing() }
                 ))
 
-            val isDbEmpty = localListing.isEmpty() && query.isBlank()
+            val isDbEmpty = localListings.isEmpty() && query.isBlank()
             val shouldJustLoadFromCache = !isDbEmpty && !fetchFromRemote
-            if (shouldJustLoadFromCache){
+            if (shouldJustLoadFromCache) {
                 emit(Resource.Loading(false))
                 return@flow
             }
 
-            val remoteListings
+            val remoteListings = try {
+                val response = api.getListings()
+                val csvReader = companyListingParser.parse(response.byteStream())
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldnt load data"))
+                null
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldnt load data"))
+                null
+            }
+
+            remoteListings?.let { listings ->
+                dao.clearCompanyListings()
+                dao.insertCompanyListings(
+                    listings.map { }
+                )
+            }
         }
     }
 
