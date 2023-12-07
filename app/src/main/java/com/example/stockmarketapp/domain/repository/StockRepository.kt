@@ -6,7 +6,7 @@ import com.example.stockmarketapp.domain.model.IntradayInfo
 import com.example.stockmarketapp.util.Resource
 import kotlinx.coroutines.flow.Flow
 
-interface StockRepositoryRDS {
+interface StockRepository {
     suspend fun getCompanyListings(
         fetchFromRemote: Boolean,
         query: String
