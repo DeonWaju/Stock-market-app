@@ -8,7 +8,7 @@ import com.example.stockmarketapp.data.remote.dto.StockApi
 import com.example.stockmarketapp.domain.model.CompanyInfo
 import com.example.stockmarketapp.domain.model.CompanyListing
 import com.example.stockmarketapp.domain.model.IntradayInfo
-import com.example.stockmarketapp.domain.repository.StockRepository
+import com.example.stockmarketapp.domain.repository.IStockRepository
 import com.example.stockmarketapp.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,7 +19,7 @@ class StockRepositoryImpl(
     private val api: StockApi,
     private val db: StockDatabase,
     private val companyListingParser: CSVParser<CompanyListing>
-) : StockRepository {
+): IStockRepository {
     private val dao = db.dao
     override suspend fun getCompanyListings(
         fetchFromRemote: Boolean,
