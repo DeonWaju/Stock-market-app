@@ -17,10 +17,9 @@ interface StockApi {
         @Query("apikey") apiKey: String = API_KEY
     ): ResponseBody
 
-//    @GET("query?function=OVERVIEW")
-//    suspend fun getCompanyInfo(
-//        @Query("symbol") symbol: String,
-//        @Query("apikey") apiKey: String = API_KEY
-//    ): CompanyInfoDto
-
+    @GET("query?function=OVERVIEW")
+    suspend fun getCompanyInfo(
+        @Query("symbol") symbol: String,
+        @Query("apikey") apiKey: String = API_KEY
+    ): CompanyInfoDto
 }

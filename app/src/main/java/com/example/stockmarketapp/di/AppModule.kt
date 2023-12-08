@@ -2,7 +2,7 @@ package com.example.stockmarketapp.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.stockmarketapp.data.csv.ICSVParser
+import com.example.stockmarketapp.data.csv.CSVParser
 import com.example.stockmarketapp.data.csv.CompanyListingsParser
 import com.example.stockmarketapp.data.local.dto.StockDatabase
 import com.example.stockmarketapp.data.remote.dto.StockApi
@@ -17,7 +17,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
 
@@ -30,7 +30,7 @@ object AppModule {
     fun provideStockApi(): StockApi {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .client(
                 OkHttpClient.Builder()
                     .addInterceptor(HttpLoggingInterceptor().apply {
@@ -56,10 +56,11 @@ object AppModule {
     fun provideStockRepository(
         api: StockApi,
         db: StockDatabase,
-        icsvParser: ICSVParser<CompanyListing>
+        icsvParser: CSVParser<CompanyListing>
     ): IStockRepository = StockRepositoryImpl(api, db, icsvParser)
-//
+
     @Provides
     @Singleton
-    fun provideCsvParser(): ICSVParser<CompanyListing> = CompanyListingsParser()
+    fun provideCsvParser(): CSVParser<CompanyListing> = CompanyListingsParser()
+
 }
